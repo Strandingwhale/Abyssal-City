@@ -1,0 +1,13 @@
+syntax = "proto3";
+package api;
+option go_package="./;api";
+
+//心跳请求
+message PingReq{
+  int64 timestamp = 1;
+}
+
+//心跳回复
+message PingResp{
+  int64 timestamp = 1;
+}
