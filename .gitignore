@@ -1,0 +1,23 @@
+# Go编译产物
+*.exe
+*.out
+*.test
+bin/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# 日志文件
+*.log
+logs/
+
+# 本地环境配置
+*.env
+local_config.yaml
+
+# Docker临时文件
+.dockerignore
+
