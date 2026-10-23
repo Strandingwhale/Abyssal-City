@@ -1,3 +1,4 @@
-module github.com/Strandingwhale/dist-td-server
+module github.com/Strandingwhale/Abyssal-City/Abyssal-City-server
+
 
 go 1.27.3
