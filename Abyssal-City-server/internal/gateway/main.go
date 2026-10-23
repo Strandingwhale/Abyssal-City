@@ -30,7 +30,6 @@ func handleConn(conn net.Conn) {
 				fmt.Println("decode err:", err)
 				return
 			}
-
 			// 半包：数据还不够，等下一次读取
 			if p == nil {
 				break
