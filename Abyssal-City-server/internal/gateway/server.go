@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net"
 	"sync"
+	"sync/atomic"
 	"time"
 
 	"github.com/Strandingwhale/Abyssal-City/Abyssal-City-server/internal/common"
@@ -16,13 +17,17 @@ const loginAddr = "127.0.0.1:9999"
 
 // 客户端上下文
 type ClientSession struct {
-	conn net.Conn
+	conn   net.Conn
+	connID uint64 // 网关本地连接标识
+	uid    uint64 // 玩家ID，登录成功后填入
+	authed bool   // 是否已登录
 }
 
 var (
 	loginConn net.Conn
 	clientMap = make(map[net.Conn]*ClientSession)
 	mapLock   sync.RWMutex
+	connSeq   atomic.Uint64 // 网关内自增的 connID，供 login 回包定向投递
 )
 
 // Run 连接 login 服务并启动网关 TCP 监听
@@ -85,14 +90,25 @@ func readLoginResp(conn net.Conn) {
 				break
 			}
 
-			fmt.Printf("login返回 msgId=%d, data=%s\n", p.MessageID, string(p.Payload))
+			fmt.Printf("login返回 msgId=%d, connID=%d, data=%s\n", p.MessageID, p.ConnId, string(p.Payload))
 
+			// 按 connID 定向投递：只写给对应的那个客户端，不再广播
 			mapLock.RLock()
+			var target *ClientSession
 			for _, cli := range clientMap {
-				pkt, _ := common.Encode(p.MessageID, p.Payload)
-				_, _ = cli.conn.Write(pkt)
+				if cli.connID == p.ConnId {
+					target = cli
+					break
+				}
 			}
 			mapLock.RUnlock()
+
+			if target == nil {
+				fmt.Printf("找不到 connID=%d 的客户端，回包丢弃\n", p.ConnId)
+				continue
+			}
+			pkt, _ := common.Encode(p.MessageID, p.ConnId, p.Payload)
+			_, _ = target.conn.Write(pkt)
 
 		}
 	}
@@ -100,14 +116,29 @@ func readLoginResp(conn net.Conn) {
 
 func handleConn(conn net.Conn) {
 	defer conn.Close()
-	fmt.Println("客户端连上：", conn.RemoteAddr())
+	remote := conn.RemoteAddr()
+	fmt.Println("客户端连上：", remote)
+
+	// 为这条连接分配网关内唯一的 connID，并登记到 clientMap
+	session := &ClientSession{
+		conn:   conn,
+		connID: connSeq.Add(1),
+	}
+	mapLock.Lock()
+	clientMap[conn] = session
+	mapLock.Unlock()
+	defer func() {
+		mapLock.Lock()
+		delete(clientMap, conn)
+		mapLock.Unlock()
+	}()
+
 	readBuf := make([]byte, 4096)
 	cache := &bytes.Buffer{} //接收缓冲区，解决"半包"和"粘包"问题。
 	ticker := time.NewTicker(heartbeatTimeout)
 	defer ticker.Stop()
 
 	recvCh := make(chan struct{}, 1)
-	remote := conn.RemoteAddr()
 
 	go func() {
 		for {
@@ -154,7 +185,8 @@ func handleConn(conn net.Conn) {
 			} else if p.MessageID >= 1000 && p.MessageID <= 1999 {
 				fmt.Printf("转发登录消息 msgId=%d, payload=%s\n", p.MessageID, string(p.Payload))
 				if loginConn != nil {
-					pkt, _ := common.Encode(p.MessageID, p.Payload)
+					// 用网关本地 connID 覆盖客户端发来的值，login 回包才能原路返回
+					pkt, _ := common.Encode(p.MessageID, session.connID, p.Payload)
 					_, _ = loginConn.Write(pkt)
 				}
 			} else {

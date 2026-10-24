@@ -45,7 +45,8 @@ func handleGatewayConn(conn net.Conn) {
 					respBody = []byte("err:账号密码错误")
 				}
 
-				respPkt, _ := common.Encode(respMsgId, respBody)
+				// 把网关发来的 connID 原样填回去，网关才能靠它定位客户端
+				respPkt, _ := common.Encode(respMsgId, p.ConnId, respBody)
 				_, _ = conn.Write(respPkt)
 			}
 		}
