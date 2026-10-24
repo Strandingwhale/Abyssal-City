@@ -1,4 +1,4 @@
-package login
+package main
 
 import (
 	"bytes"

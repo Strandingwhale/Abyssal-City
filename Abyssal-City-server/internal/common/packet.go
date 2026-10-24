@@ -28,6 +28,11 @@ func Encode(MessageID uint16, ConnId uint64, Payload []byte) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
+	//connID
+	err = binary.Write(&buf, binary.BigEndian, ConnId)
+	if err != nil {
+		return nil, err
+	}
 	//内容
 	_, err = buf.Write(Payload)
 	return buf.Bytes(), err

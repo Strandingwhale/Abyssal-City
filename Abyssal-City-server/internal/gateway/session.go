@@ -9,6 +9,7 @@ import (
 
 type Session struct {
 	conn       net.Conn
+	connID     uint64    // 网关内自增的连接标识，login 回包靠它定位
 	remoteAddr string    //客户端地址
 	readCache  []byte    //拆包缓存（处理粘包半包）
 	lastRecvAt time.Time // 最后收到消息时间，用于心跳超时
@@ -20,14 +21,20 @@ type Session struct {
 }
 
 // NewSession 创建新会话
-func NewSession(conn net.Conn) *Session {
+func NewSession(conn net.Conn, connID uint64) *Session {
 	return &Session{
 		conn:       conn,
+		connID:     connID,
 		remoteAddr: conn.RemoteAddr().String(),
 		readCache:  make([]byte, 0, 4096),
 		lastRecvAt: time.Now(),
 		closeChan:  make(chan struct{}),
 	}
+}
+
+// ConnID 返回网关分配的连接标识
+func (s *Session) ConnID() uint64 {
+	return s.connID
 }
 
 // UpdateRecvTime 更新最后接收时间（收到任何包的时候调用，重置心跳计时）
