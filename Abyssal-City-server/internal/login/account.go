@@ -2,11 +2,16 @@ package main
 
 import (
 	"bytes"
+	"context"
+	"crypto/rand"
 	"database/sql"
+	"encoding/hex"
 	"errors"
 	"net"
+	"time"
 
 	"github.com/go-sql-driver/mysql"
+	"github.com/redis/go-redis/v9"
 	"golang.org/x/crypto/bcrypt"
 	"google.golang.org/protobuf/proto"
 
@@ -17,7 +22,14 @@ import (
 
 var logger = common.NewLogger("login")
 
-var db *sql.DB
+var (
+	db  *sql.DB
+	rdb *redis.Client
+	ctx = context.Background()
+)
+
+// token 有效期：短期 2 小时
+const tokenTTL = 2 * time.Hour
 
 // 回包错误码
 const (
@@ -75,7 +87,7 @@ func handleGatewayConn(conn net.Conn) {
 	}
 }
 
-// handleLogin 校验账号密码（临时实现：账号 test 直接放行，3c 再改为查库+bcrypt 校验）
+// handleLogin 查库校验密码（bcrypt 比对），成功则签发短期 token 存入 Redis
 func handleLogin(payload []byte) *api.LoginResp {
 	var req api.LoginReq
 	if err := proto.Unmarshal(payload, &req); err != nil {
@@ -84,10 +96,44 @@ func handleLogin(payload []byte) *api.LoginResp {
 	}
 	logger.Printf("收到登录请求：account=%s", req.Account)
 
-	if req.Account == "test" {
-		return &api.LoginResp{Code: codeOK, Msg: "ok", Uid: 10086, Token: "token-10086", SessionId: "session-10086"}
+	var (
+		uid  uint64
+		hash string
+	)
+	err := db.QueryRow("SELECT id, password_hash FROM account WHERE account = ?", req.Account).
+		Scan(&uid, &hash)
+	if errors.Is(err, sql.ErrNoRows) {
+		return &api.LoginResp{Code: codeBadParam, Msg: "账号密码错误"}
 	}
-	return &api.LoginResp{Code: codeBadParam, Msg: "账号密码错误"}
+	if err != nil {
+		logger.Println("查询账号失败:", err)
+		return &api.LoginResp{Code: codeServerError, Msg: "服务器繁忙"}
+	}
+
+	// bcrypt 比对：不解密哈希，而是用同样的算法验证是否匹配
+	if bcrypt.CompareHashAndPassword([]byte(hash), []byte(req.Password)) != nil {
+		return &api.LoginResp{Code: codeBadParam, Msg: "账号密码错误"}
+	}
+
+	token, err := issueToken(uid)
+	if err != nil {
+		logger.Println("签发 token 失败:", err)
+		return &api.LoginResp{Code: codeServerError, Msg: "服务器繁忙"}
+	}
+
+	logger.Printf("登录成功：account=%s uid=%d", req.Account, uid)
+	return &api.LoginResp{Code: codeOK, Msg: "ok", Uid: int64(uid), Token: token, SessionId: token}
+}
+
+// issueToken 生成 32 位随机 token，以 token→uid 的形式存入 Redis，到期自动删除
+func issueToken(uid uint64) (string, error) {
+	buf := make([]byte, 16)
+	if _, err := rand.Read(buf); err != nil {
+		return "", err
+	}
+	token := hex.EncodeToString(buf)
+	err := rdb.Set(ctx, "token:"+token, uid, tokenTTL).Err()
+	return token, err
 }
 
 // handleRegister 注册：bcrypt 哈希密码后入库，绝不存明文
@@ -130,6 +176,12 @@ func main() {
 		logger.Fatal("数据库连接失败：", err)
 	}
 	logger.Println("数据库连接成功")
+
+	rdb, err = datasave.InitRedis("127.0.0.1:6379")
+	if err != nil {
+		logger.Fatal("Redis 连接失败：", err)
+	}
+	logger.Println("Redis 连接成功")
 
 	listener, err := net.Listen("tcp", ":9999")
 	if err != nil {

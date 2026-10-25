@@ -1,0 +1,30 @@
+# Abyssal-City 基础设施：MySQL + Redis
+# 用法：docker compose up -d（启动）/ docker compose down（停止）
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: abyssal-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root123     # 本地开发用，生产改密钥管理
+      MYSQL_DATABASE: abyssal_city     # 首次启动自动建库
+    ports:
+      - "3306:3306"
+    volumes:
+      # 首次启动自动执行建表 SQL
+      - ./db:/docker-entrypoint-initdb.d
+      # 数据持久化：容器删了数据还在
+      - mysql-data:/var/lib/mysql
+    restart: unless-stopped
+
+  redis:
+    image: redis:7
+    container_name: abyssal-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
+
+volumes:
+  mysql-data:
+  redis-data:
