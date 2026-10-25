@@ -3,12 +3,14 @@ package gateway
 
 import (
 	"bytes"
-	"fmt"
 	"net"
 	"sync"
 	"sync/atomic"
 	"time"
 
+	"google.golang.org/protobuf/proto"
+
+	"github.com/Strandingwhale/Abyssal-City/Abyssal-City-server/api"
 	"github.com/Strandingwhale/Abyssal-City/Abyssal-City-server/internal/common"
 )
 
@@ -16,6 +18,7 @@ const heartbeatTimeout = 10 * time.Second
 const loginAddr = "127.0.0.1:9999"
 
 var (
+	logger    = common.NewLogger("gateway")
 	loginConn net.Conn
 	clientMap = make(map[uint64]*Session) // connID → 会话
 	mapLock   sync.RWMutex
@@ -30,7 +33,7 @@ func Run() {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println("网关启动：监听：8888")
+	logger.Println("网关启动：监听：8888")
 	for {
 		conn, err := listener.Accept()
 		if err != nil {
@@ -45,18 +48,18 @@ func connectLogin() {
 	for {
 		conn, err := net.Dial("tcp", loginAddr)
 		if err != nil {
-			fmt.Printf("连接login失败，3s后重连: %v\n", err)
+			logger.Printf("连接login失败，3s后重连: %v", err)
 			time.Sleep(3 * time.Second)
 			continue
 		}
 		loginConn = conn
-		fmt.Println("网关成功连上login服务")
+		logger.Println("网关成功连上login服务")
 		go readLoginResp(conn)
 		return
 	}
 }
 
-// 读取login返回的包，转发给客户端（这里简化：login回包直接广播，后面我再加uid绑定）
+// 读取login返回的包，转发给客户端
 func readLoginResp(conn net.Conn) {
 	defer func() {
 		loginConn = nil
@@ -68,21 +71,21 @@ func readLoginResp(conn net.Conn) {
 	for {
 		n, err := conn.Read(readBuf)
 		if err != nil {
-			fmt.Println("网关和login连接断开：", err)
+			logger.Println("网关和login连接断开：", err)
 			return
 		}
 		cache.Write(readBuf[:n])
 		for {
 			p, err := common.Decode(cache)
 			if err != nil {
-				fmt.Println("gateway decode login resp err:", err)
+				logger.Println("decode login resp err:", err)
 				return
 			}
 			if p == nil {
 				break
 			}
 
-			fmt.Printf("login返回 msgId=%d, connID=%d, data=%s\n", p.MessageID, p.ConnId, string(p.Payload))
+			logger.Printf("login返回 msgId=%d, connID=%d, data=%s", p.MessageID, p.ConnId, string(p.Payload))
 
 			// 按 connID 定向投递：只写给对应的那个客户端，不再广播
 			mapLock.RLock()
@@ -90,9 +93,19 @@ func readLoginResp(conn net.Conn) {
 			mapLock.RUnlock()
 
 			if target == nil {
-				fmt.Printf("找不到 connID=%d 的客户端，回包丢弃\n", p.ConnId)
+				logger.Printf("找不到 connID=%d 的客户端，回包丢弃", p.ConnId)
 				continue
 			}
+
+			// 登录成功时把 uid 绑定到会话，之后再透传给客户端
+			if p.MessageID == 1002 {
+				var resp api.LoginResp
+				if err := proto.Unmarshal(p.Payload, &resp); err == nil && resp.Code == 0 {
+					target.SetLogin(uint64(resp.Uid), resp.SessionId)
+					logger.Printf("connID=%d 绑定 uid=%d", p.ConnId, resp.Uid)
+				}
+			}
+
 			pkt, _ := common.Encode(p.MessageID, p.ConnId, p.Payload)
 			_ = target.WriteMsg(pkt)
 
@@ -114,7 +127,7 @@ func handleConn(conn net.Conn) {
 		session.Close()
 	}()
 
-	fmt.Printf("客户端连上：%s (connID=%d)\n", session.remoteAddr, session.ConnID())
+	logger.Printf("客户端连上：%s (connID=%d)", session.remoteAddr, session.ConnID())
 
 	readBuf := make([]byte, 4096)
 	cache := &bytes.Buffer{} //接收缓冲区，解决"半包"和"粘包"问题。
@@ -129,7 +142,7 @@ func handleConn(conn net.Conn) {
 				return
 			case <-ticker.C:
 				if session.IsTimeout(heartbeatTimeout) {
-					fmt.Printf("连接 %s 心跳超时，断开\n", session.remoteAddr)
+					logger.Printf("连接 %s 心跳超时，断开", session.remoteAddr)
 					session.Close()
 					return
 				}
@@ -140,7 +153,7 @@ func handleConn(conn net.Conn) {
 	for {
 		n, err := conn.Read(readBuf)
 		if err != nil {
-			fmt.Println("链接关闭，err：", err)
+			logger.Println("链接关闭，err：", err)
 			return
 		}
 
@@ -152,7 +165,7 @@ func handleConn(conn net.Conn) {
 		for {
 			p, err := common.Decode(cache)
 			if err != nil {
-				fmt.Println("decode err:", err)
+				logger.Println("decode err:", err)
 				return
 			}
 			// 半包：数据还不够，等下一次读取
@@ -161,16 +174,16 @@ func handleConn(conn net.Conn) {
 			}
 
 			if p.MessageID == 0 {
-				fmt.Printf("收到心跳 %s\n", session.remoteAddr)
+				logger.Printf("收到心跳 %s", session.remoteAddr)
 			} else if p.MessageID >= 1000 && p.MessageID <= 1999 {
-				fmt.Printf("转发登录消息 msgId=%d, payload=%s\n", p.MessageID, string(p.Payload))
+				logger.Printf("转发登录消息 msgId=%d", p.MessageID)
 				if loginConn != nil {
 					// 用网关本地 connID 覆盖客户端发来的值，login 回包才能原路返回
 					pkt, _ := common.Encode(p.MessageID, session.ConnID(), p.Payload)
 					_, _ = loginConn.Write(pkt)
 				}
 			} else {
-				fmt.Printf("收到包 msg=%d,payload=%s\n", p.MessageID, string(p.Payload))
+				logger.Printf("收到包 msg=%d,payload=%s", p.MessageID, string(p.Payload))
 			}
 		}
 	}

@@ -1,14 +1,3 @@
-## 顺序 1：先写 `internal/common/packet.go`
-
-功能：
-
-- Encode：消息 ID + protobuf 二进制 → 组装成 `[4字节长度][2字节msgId][payload]` 的包（大端）
-- Decode：从字节缓冲区里不断读，切出完整包，处理半包、粘包
-
-> 
-> 提示：你需要一个缓冲区（bytes.Buffer）存还没解析完的残留字节。
-
-写完之后，新建 `internal/common/packet_test.go` 写单元测试：自己拼多组包、半包、粘包的字节，测试 Decode 能不能正确拆出来。
 
 ## 顺序 2：`internal/common/logger.go`
 
@@ -17,52 +6,9 @@
 > 
 > 不用做复杂日志分割，够用就行。
 
-## 顺序 3：`api/base.proto`
+步	内容	验收点
+3a	数据库层：建 MySQL 库表（account：账号 / 密码哈希；player：角色基础信息）	建表 SQL + 连接池代码
+3b	注册 + 密码哈希：账号密码入库，密码用 bcrypt 哈希，禁止明文	注册接口返回成功，库里看不到明文
+3c	登录 + token：登录校验，签发短期 token 存 Redis，返回给网关 / 客户端	登录成功拿到 token，Redis 里有记录
+3d	角色初始化：新玩家默认干员 / 体力 / 背包数据落库	登录后能查到初始化角色数据
 
-写 proto3，只定义 PingReq、PingResp，生成脚本写在 `scripts/gen_proto.bat`，跑通 protoc，确认能正常生成 pb.go。
-
-> 
-> 注意 go_package 别写错。
-
-## 顺序 4：`internal/gateway` 包
-
-两个核心文件：
-
-1. `session.go`
-Session 结构体：保存 conn、sessionId、lastPingTime（最后收到心跳的时间）
-每个客户端连接对应一个 Session。
-2. `server.go`
-   - Start ()：监听 TCP 端口
-   - 循环 Accept 新连接，为每个连接启动单独 goroutine 处理读包
-   - 一个后台定时 goroutine（比如每 1s 遍历全部 session）：检查 当前时间 - lastPingTime > 超时阈值 → 关闭连接、清理 session
-
-> 
-> 读包逻辑：从 conn 循环 Read，读到的数据丢进 packet 的 buffer，调用 Decode，拿到消息。
-> 如果消息 ID 是 ping，就更新 lastPingTime，构造 PingResp 打包发回去。
-
-## 顺序 5：`cmd/gateway/main.go`
-
-main 要薄：
-
-1. 初始化 logger
-2. 新建 gateway server 实例
-3. 调用 server.Start ()，阻塞运行
-
-## ✅ 开发里的重点提醒（避坑）
-
-1. 并发安全：Session 集合（存所有在线玩家）读写一定要加锁 `sync.Mutex`，读包协程、定时清理协程都会访问它。
-2. 字节序：包头的 uint32、uint16 必须用**大端（binary.BigEndian）**，客户端和服务端要一致。
-3. 读 TCP 的时候，Read 返回 io.EOF 代表对方正常关闭，直接清理 session。
-4. 心跳超时建议设 8~10s，不用太短。
-5. proto.Marshal 得到 payload 之后，再交给 packet.Encode 打包；收到包先 Decode 拿到 payload，再 proto.Unmarshal。
-
-## 📌 什么时候来找我
-
-- 编译报错、import 路径不对
-- 粘包半包测试通不过
-- goroutine 并发、锁的 panic
-- protoc 生成代码失败
-- 心跳逻辑写乱，不会做定时检测掉线
-
-你先从 `internal/common/packet.go` 动手就可以。
-写完一段，有问题直接贴代码 + 报错。

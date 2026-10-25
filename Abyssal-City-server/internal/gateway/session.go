@@ -37,6 +37,21 @@ func (s *Session) ConnID() uint64 {
 	return s.connID
 }
 
+// SetLogin 登录成功后绑定用户身份
+func (s *Session) SetLogin(uid uint64, sessionID string) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	s.uid = uid
+	s.sessionID = sessionID
+}
+
+// UID 返回登录绑定的用户 id（未登录为 0）
+func (s *Session) UID() uint64 {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	return s.uid
+}
+
 // UpdateRecvTime 更新最后接收时间（收到任何包的时候调用，重置心跳计时）
 func (s *Session) UpdateRecvTime() {
 	s.mu.Lock()

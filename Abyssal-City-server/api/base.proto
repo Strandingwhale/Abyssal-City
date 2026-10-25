@@ -11,3 +11,25 @@ message PingReq{
 message PingResp{
   int64 timestamp = 1;
 }
+
+message RegisterReq{
+  string account = 1;// 账号
+  string password = 2;// 密码（明文传，服务端哈希后入库）
+}
+
+message RegisterResp{
+  int32 code =1;
+  string msg =2;
+}
+// 登录请求
+message LoginReq {
+  string account = 1;
+  string password = 2;
+}
+message LoginResp {
+  int32 code = 1;
+  string msg = 2;
+  int64 uid = 3;        // 玩家ID，绑定到网关 session 用
+  string token = 4;     // 短期 token
+  string session_id = 5;
+}
