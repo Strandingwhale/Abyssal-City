@@ -19,8 +19,8 @@ const loginAddr = "127.0.0.1:9999"
 
 var (
 	logger    = common.NewLogger("gateway")
-	loginConn net.Conn
-	clientMap = make(map[uint64]*Session) // connID → 会话
+	loginConn atomic.Pointer[net.Conn]     // 与 login 服务的当前连接，重连会整体换对象
+	clientMap = make(map[uint64]*Session)  // connID → 会话
 	mapLock   sync.RWMutex
 	connSeq   atomic.Uint64 // 网关内自增的 connID，供 login 回包定向投递
 )
@@ -52,7 +52,7 @@ func connectLogin() {
 			time.Sleep(3 * time.Second)
 			continue
 		}
-		loginConn = conn
+		loginConn.Store(&conn)
 		logger.Println("网关成功连上login服务")
 		go readLoginResp(conn)
 		return
@@ -62,7 +62,7 @@ func connectLogin() {
 // 读取login返回的包，转发给客户端
 func readLoginResp(conn net.Conn) {
 	defer func() {
-		loginConn = nil
+		loginConn.Store(nil)
 		_ = conn.Close()
 		go connectLogin()
 	}()
@@ -174,13 +174,30 @@ func handleConn(conn net.Conn) {
 			}
 
 			if p.MessageID == 0 {
-				logger.Printf("收到心跳 %s", session.remoteAddr)
+				// 心跳闭环：解出 PingReq，回 PingResp（msgId=1），时间戳原样带回
+				var req api.PingReq
+				if err := proto.Unmarshal(p.Payload, &req); err != nil {
+					logger.Println("解析 PingReq 失败:", err)
+					continue
+				}
+				respBody, err := proto.Marshal(&api.PingResp{Timestamp: req.Timestamp})
+				if err != nil {
+					logger.Println("序列化 PingResp 失败:", err)
+					continue
+				}
+				pkt, _ := common.Encode(1, session.ConnID(), respBody)
+				if err := session.WriteMsg(pkt); err != nil {
+					logger.Println("回 Pong 失败:", err)
+					return
+				}
 			} else if p.MessageID >= 1000 && p.MessageID <= 1999 {
 				logger.Printf("转发登录消息 msgId=%d", p.MessageID)
-				if loginConn != nil {
+				// 原子加载一次：判空和写入用同一个连接对象，杜绝读写撕裂；
+				// 加载后即使连接被重连置换，写到旧连接也只是报错丢弃
+				if c := loginConn.Load(); c != nil {
 					// 用网关本地 connID 覆盖客户端发来的值，login 回包才能原路返回
 					pkt, _ := common.Encode(p.MessageID, session.ConnID(), p.Payload)
-					_, _ = loginConn.Write(pkt)
+					_, _ = (*c).Write(pkt)
 				}
 			} else {
 				logger.Printf("收到包 msg=%d,payload=%s", p.MessageID, string(p.Payload))

@@ -33,3 +33,73 @@ message LoginResp {
   string token = 4;     // 短期 token
   string session_id = 5;
 }
+
+// ============ 战斗协议（msgId 2000+，与登录 1000-1999 错开） ============
+
+// 2000 EnterRoomReq → 2001 EnterRoomResp
+// 进入/创建房间
+message EnterRoomReq {
+  uint32 room_id = 1;   // 0 表示由服务端创建新房间
+  uint32 level_id = 2;  // 关卡/地图ID
+}
+
+message EnterRoomResp {
+  int32 code = 1;
+  string msg = 2;
+  uint32 room_id = 3;
+  uint64 seed = 4;      // 随机种子，双方据此生成相同的战斗随机序列
+}
+
+// 2002 DeployOperatorReq → 2003 DeployOperatorResp
+// 在指定格点部署干员
+message DeployOperatorReq {
+  uint32 room_id = 1;
+  uint32 operator_id = 2; // 干员ID（配置表）
+  uint32 grid_x = 3;
+  uint32 grid_y = 4;
+  int32 direction = 5;    // 朝向：0上 1右 2下 3左
+}
+
+message DeployOperatorResp {
+  int32 code = 1;
+  string msg = 2;
+  uint32 operator_id = 3;
+  int32 remaining_cost = 4; // 部署后剩余费用
+}
+
+// 2004 BattleStatePush（服务端单向推送，无请求）
+// 战斗进行中的帧状态，由服务端定时或事件驱动下发
+message BattleStatePush {
+  uint32 room_id = 1;
+  uint32 frame = 2;                 // 当前帧号
+  int32 cost = 3;                   // 当前可用费用
+  int32 base_hp = 4;                // 基地剩余生命
+  repeated OperatorState operators = 5; // 场上干员状态
+  repeated EnemyState enemies = 6;      // 场上敌人状态
+}
+//干员状态
+message OperatorState {
+  uint32 operator_id = 1;
+  uint32 grid_x = 2;
+  uint32 grid_y = 3;
+  int32 hp = 4;
+  int32 direction = 5;
+}
+
+message EnemyState {
+  uint32 enemy_id = 1;    // 敌人配置ID
+  uint64 instance_id = 2; // 场上实例ID（同一配置可能出现多个）
+  int32 hp = 3;
+  float pos_x = 4;        // 路径上的连续坐标
+  float pos_y = 5;
+}
+
+// 2005 BattleSettlePush（服务端单向推送）
+// 战斗结束结算
+message BattleSettlePush {
+  uint32 room_id = 1;
+  int32 result = 2;              // 0胜利 1失败 2主动撤退
+  int32 score = 3;
+  int32 duration_sec = 4;        // 战斗时长
+  repeated string rewards = 5;   // 奖励描述，如 "exp:100"、"gold:500"
+}

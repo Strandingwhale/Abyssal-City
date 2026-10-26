@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.12
 // 	protoc        v7.36.2
-// source: api/base.proto
+// source: base.proto
 
 package api
 
@@ -31,7 +31,7 @@ type PingReq struct {
 
 func (x *PingReq) Reset() {
 	*x = PingReq{}
-	mi := &file_api_base_proto_msgTypes[0]
+	mi := &file_base_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -43,7 +43,7 @@ func (x *PingReq) String() string {
 func (*PingReq) ProtoMessage() {}
 
 func (x *PingReq) ProtoReflect() protoreflect.Message {
-	mi := &file_api_base_proto_msgTypes[0]
+	mi := &file_base_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -56,7 +56,7 @@ func (x *PingReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PingReq.ProtoReflect.Descriptor instead.
 func (*PingReq) Descriptor() ([]byte, []int) {
-	return file_api_base_proto_rawDescGZIP(), []int{0}
+	return file_base_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *PingReq) GetTimestamp() int64 {
@@ -76,7 +76,7 @@ type PingResp struct {
 
 func (x *PingResp) Reset() {
 	*x = PingResp{}
-	mi := &file_api_base_proto_msgTypes[1]
+	mi := &file_base_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -88,7 +88,7 @@ func (x *PingResp) String() string {
 func (*PingResp) ProtoMessage() {}
 
 func (x *PingResp) ProtoReflect() protoreflect.Message {
-	mi := &file_api_base_proto_msgTypes[1]
+	mi := &file_base_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -101,7 +101,7 @@ func (x *PingResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PingResp.ProtoReflect.Descriptor instead.
 func (*PingResp) Descriptor() ([]byte, []int) {
-	return file_api_base_proto_rawDescGZIP(), []int{1}
+	return file_base_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *PingResp) GetTimestamp() int64 {
@@ -121,7 +121,7 @@ type RegisterReq struct {
 
 func (x *RegisterReq) Reset() {
 	*x = RegisterReq{}
-	mi := &file_api_base_proto_msgTypes[2]
+	mi := &file_base_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -133,7 +133,7 @@ func (x *RegisterReq) String() string {
 func (*RegisterReq) ProtoMessage() {}
 
 func (x *RegisterReq) ProtoReflect() protoreflect.Message {
-	mi := &file_api_base_proto_msgTypes[2]
+	mi := &file_base_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -146,7 +146,7 @@ func (x *RegisterReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RegisterReq.ProtoReflect.Descriptor instead.
 func (*RegisterReq) Descriptor() ([]byte, []int) {
-	return file_api_base_proto_rawDescGZIP(), []int{2}
+	return file_base_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *RegisterReq) GetAccount() string {
@@ -173,7 +173,7 @@ type RegisterResp struct {
 
 func (x *RegisterResp) Reset() {
 	*x = RegisterResp{}
-	mi := &file_api_base_proto_msgTypes[3]
+	mi := &file_base_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -185,7 +185,7 @@ func (x *RegisterResp) String() string {
 func (*RegisterResp) ProtoMessage() {}
 
 func (x *RegisterResp) ProtoReflect() protoreflect.Message {
-	mi := &file_api_base_proto_msgTypes[3]
+	mi := &file_base_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -198,7 +198,7 @@ func (x *RegisterResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RegisterResp.ProtoReflect.Descriptor instead.
 func (*RegisterResp) Descriptor() ([]byte, []int) {
-	return file_api_base_proto_rawDescGZIP(), []int{3}
+	return file_base_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *RegisterResp) GetCode() int32 {
@@ -226,7 +226,7 @@ type LoginReq struct {
 
 func (x *LoginReq) Reset() {
 	*x = LoginReq{}
-	mi := &file_api_base_proto_msgTypes[4]
+	mi := &file_base_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -238,7 +238,7 @@ func (x *LoginReq) String() string {
 func (*LoginReq) ProtoMessage() {}
 
 func (x *LoginReq) ProtoReflect() protoreflect.Message {
-	mi := &file_api_base_proto_msgTypes[4]
+	mi := &file_base_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -251,7 +251,7 @@ func (x *LoginReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LoginReq.ProtoReflect.Descriptor instead.
 func (*LoginReq) Descriptor() ([]byte, []int) {
-	return file_api_base_proto_rawDescGZIP(), []int{4}
+	return file_base_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *LoginReq) GetAccount() string {
@@ -281,7 +281,7 @@ type LoginResp struct {
 
 func (x *LoginResp) Reset() {
 	*x = LoginResp{}
-	mi := &file_api_base_proto_msgTypes[5]
+	mi := &file_base_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -293,7 +293,7 @@ func (x *LoginResp) String() string {
 func (*LoginResp) ProtoMessage() {}
 
 func (x *LoginResp) ProtoReflect() protoreflect.Message {
-	mi := &file_api_base_proto_msgTypes[5]
+	mi := &file_base_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -306,7 +306,7 @@ func (x *LoginResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LoginResp.ProtoReflect.Descriptor instead.
 func (*LoginResp) Descriptor() ([]byte, []int) {
-	return file_api_base_proto_rawDescGZIP(), []int{5}
+	return file_base_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *LoginResp) GetCode() int32 {
@@ -344,11 +344,596 @@ func (x *LoginResp) GetSessionId() string {
 	return ""
 }
 
-var File_api_base_proto protoreflect.FileDescriptor
+// 2000 EnterRoomReq → 2001 EnterRoomResp
+// 进入/创建房间
+type EnterRoomReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	RoomId        uint32                 `protobuf:"varint,1,opt,name=room_id,json=roomId,proto3" json:"room_id,omitempty"`    // 0 表示由服务端创建新房间
+	LevelId       uint32                 `protobuf:"varint,2,opt,name=level_id,json=levelId,proto3" json:"level_id,omitempty"` // 关卡/地图ID
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
 
-const file_api_base_proto_rawDesc = "" +
+func (x *EnterRoomReq) Reset() {
+	*x = EnterRoomReq{}
+	mi := &file_base_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *EnterRoomReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*EnterRoomReq) ProtoMessage() {}
+
+func (x *EnterRoomReq) ProtoReflect() protoreflect.Message {
+	mi := &file_base_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use EnterRoomReq.ProtoReflect.Descriptor instead.
+func (*EnterRoomReq) Descriptor() ([]byte, []int) {
+	return file_base_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *EnterRoomReq) GetRoomId() uint32 {
+	if x != nil {
+		return x.RoomId
+	}
+	return 0
+}
+
+func (x *EnterRoomReq) GetLevelId() uint32 {
+	if x != nil {
+		return x.LevelId
+	}
+	return 0
+}
+
+type EnterRoomResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Code          int32                  `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
+	Msg           string                 `protobuf:"bytes,2,opt,name=msg,proto3" json:"msg,omitempty"`
+	RoomId        uint32                 `protobuf:"varint,3,opt,name=room_id,json=roomId,proto3" json:"room_id,omitempty"`
+	Seed          uint64                 `protobuf:"varint,4,opt,name=seed,proto3" json:"seed,omitempty"` // 随机种子，双方据此生成相同的战斗随机序列
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *EnterRoomResp) Reset() {
+	*x = EnterRoomResp{}
+	mi := &file_base_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *EnterRoomResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*EnterRoomResp) ProtoMessage() {}
+
+func (x *EnterRoomResp) ProtoReflect() protoreflect.Message {
+	mi := &file_base_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use EnterRoomResp.ProtoReflect.Descriptor instead.
+func (*EnterRoomResp) Descriptor() ([]byte, []int) {
+	return file_base_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *EnterRoomResp) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *EnterRoomResp) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+func (x *EnterRoomResp) GetRoomId() uint32 {
+	if x != nil {
+		return x.RoomId
+	}
+	return 0
+}
+
+func (x *EnterRoomResp) GetSeed() uint64 {
+	if x != nil {
+		return x.Seed
+	}
+	return 0
+}
+
+// 2002 DeployOperatorReq → 2003 DeployOperatorResp
+// 在指定格点部署干员
+type DeployOperatorReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	RoomId        uint32                 `protobuf:"varint,1,opt,name=room_id,json=roomId,proto3" json:"room_id,omitempty"`
+	OperatorId    uint32                 `protobuf:"varint,2,opt,name=operator_id,json=operatorId,proto3" json:"operator_id,omitempty"` // 干员ID（配置表）
+	GridX         uint32                 `protobuf:"varint,3,opt,name=grid_x,json=gridX,proto3" json:"grid_x,omitempty"`
+	GridY         uint32                 `protobuf:"varint,4,opt,name=grid_y,json=gridY,proto3" json:"grid_y,omitempty"`
+	Direction     int32                  `protobuf:"varint,5,opt,name=direction,proto3" json:"direction,omitempty"` // 朝向：0上 1右 2下 3左
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeployOperatorReq) Reset() {
+	*x = DeployOperatorReq{}
+	mi := &file_base_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeployOperatorReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeployOperatorReq) ProtoMessage() {}
+
+func (x *DeployOperatorReq) ProtoReflect() protoreflect.Message {
+	mi := &file_base_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeployOperatorReq.ProtoReflect.Descriptor instead.
+func (*DeployOperatorReq) Descriptor() ([]byte, []int) {
+	return file_base_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *DeployOperatorReq) GetRoomId() uint32 {
+	if x != nil {
+		return x.RoomId
+	}
+	return 0
+}
+
+func (x *DeployOperatorReq) GetOperatorId() uint32 {
+	if x != nil {
+		return x.OperatorId
+	}
+	return 0
+}
+
+func (x *DeployOperatorReq) GetGridX() uint32 {
+	if x != nil {
+		return x.GridX
+	}
+	return 0
+}
+
+func (x *DeployOperatorReq) GetGridY() uint32 {
+	if x != nil {
+		return x.GridY
+	}
+	return 0
+}
+
+func (x *DeployOperatorReq) GetDirection() int32 {
+	if x != nil {
+		return x.Direction
+	}
+	return 0
+}
+
+type DeployOperatorResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Code          int32                  `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
+	Msg           string                 `protobuf:"bytes,2,opt,name=msg,proto3" json:"msg,omitempty"`
+	OperatorId    uint32                 `protobuf:"varint,3,opt,name=operator_id,json=operatorId,proto3" json:"operator_id,omitempty"`
+	RemainingCost int32                  `protobuf:"varint,4,opt,name=remaining_cost,json=remainingCost,proto3" json:"remaining_cost,omitempty"` // 部署后剩余费用
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeployOperatorResp) Reset() {
+	*x = DeployOperatorResp{}
+	mi := &file_base_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeployOperatorResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeployOperatorResp) ProtoMessage() {}
+
+func (x *DeployOperatorResp) ProtoReflect() protoreflect.Message {
+	mi := &file_base_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeployOperatorResp.ProtoReflect.Descriptor instead.
+func (*DeployOperatorResp) Descriptor() ([]byte, []int) {
+	return file_base_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *DeployOperatorResp) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *DeployOperatorResp) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+func (x *DeployOperatorResp) GetOperatorId() uint32 {
+	if x != nil {
+		return x.OperatorId
+	}
+	return 0
+}
+
+func (x *DeployOperatorResp) GetRemainingCost() int32 {
+	if x != nil {
+		return x.RemainingCost
+	}
+	return 0
+}
+
+// 2004 BattleStatePush（服务端单向推送，无请求）
+// 战斗进行中的帧状态，由服务端定时或事件驱动下发
+type BattleStatePush struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	RoomId        uint32                 `protobuf:"varint,1,opt,name=room_id,json=roomId,proto3" json:"room_id,omitempty"`
+	Frame         uint32                 `protobuf:"varint,2,opt,name=frame,proto3" json:"frame,omitempty"`                 // 当前帧号
+	Cost          int32                  `protobuf:"varint,3,opt,name=cost,proto3" json:"cost,omitempty"`                   // 当前可用费用
+	BaseHp        int32                  `protobuf:"varint,4,opt,name=base_hp,json=baseHp,proto3" json:"base_hp,omitempty"` // 基地剩余生命
+	Operators     []*OperatorState       `protobuf:"bytes,5,rep,name=operators,proto3" json:"operators,omitempty"`          // 场上干员状态
+	Enemies       []*EnemyState          `protobuf:"bytes,6,rep,name=enemies,proto3" json:"enemies,omitempty"`              // 场上敌人状态
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *BattleStatePush) Reset() {
+	*x = BattleStatePush{}
+	mi := &file_base_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *BattleStatePush) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BattleStatePush) ProtoMessage() {}
+
+func (x *BattleStatePush) ProtoReflect() protoreflect.Message {
+	mi := &file_base_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BattleStatePush.ProtoReflect.Descriptor instead.
+func (*BattleStatePush) Descriptor() ([]byte, []int) {
+	return file_base_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *BattleStatePush) GetRoomId() uint32 {
+	if x != nil {
+		return x.RoomId
+	}
+	return 0
+}
+
+func (x *BattleStatePush) GetFrame() uint32 {
+	if x != nil {
+		return x.Frame
+	}
+	return 0
+}
+
+func (x *BattleStatePush) GetCost() int32 {
+	if x != nil {
+		return x.Cost
+	}
+	return 0
+}
+
+func (x *BattleStatePush) GetBaseHp() int32 {
+	if x != nil {
+		return x.BaseHp
+	}
+	return 0
+}
+
+func (x *BattleStatePush) GetOperators() []*OperatorState {
+	if x != nil {
+		return x.Operators
+	}
+	return nil
+}
+
+func (x *BattleStatePush) GetEnemies() []*EnemyState {
+	if x != nil {
+		return x.Enemies
+	}
+	return nil
+}
+
+type OperatorState struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	OperatorId    uint32                 `protobuf:"varint,1,opt,name=operator_id,json=operatorId,proto3" json:"operator_id,omitempty"`
+	GridX         uint32                 `protobuf:"varint,2,opt,name=grid_x,json=gridX,proto3" json:"grid_x,omitempty"`
+	GridY         uint32                 `protobuf:"varint,3,opt,name=grid_y,json=gridY,proto3" json:"grid_y,omitempty"`
+	Hp            int32                  `protobuf:"varint,4,opt,name=hp,proto3" json:"hp,omitempty"`
+	Direction     int32                  `protobuf:"varint,5,opt,name=direction,proto3" json:"direction,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *OperatorState) Reset() {
+	*x = OperatorState{}
+	mi := &file_base_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *OperatorState) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*OperatorState) ProtoMessage() {}
+
+func (x *OperatorState) ProtoReflect() protoreflect.Message {
+	mi := &file_base_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use OperatorState.ProtoReflect.Descriptor instead.
+func (*OperatorState) Descriptor() ([]byte, []int) {
+	return file_base_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *OperatorState) GetOperatorId() uint32 {
+	if x != nil {
+		return x.OperatorId
+	}
+	return 0
+}
+
+func (x *OperatorState) GetGridX() uint32 {
+	if x != nil {
+		return x.GridX
+	}
+	return 0
+}
+
+func (x *OperatorState) GetGridY() uint32 {
+	if x != nil {
+		return x.GridY
+	}
+	return 0
+}
+
+func (x *OperatorState) GetHp() int32 {
+	if x != nil {
+		return x.Hp
+	}
+	return 0
+}
+
+func (x *OperatorState) GetDirection() int32 {
+	if x != nil {
+		return x.Direction
+	}
+	return 0
+}
+
+type EnemyState struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	EnemyId       uint32                 `protobuf:"varint,1,opt,name=enemy_id,json=enemyId,proto3" json:"enemy_id,omitempty"`          // 敌人配置ID
+	InstanceId    uint64                 `protobuf:"varint,2,opt,name=instance_id,json=instanceId,proto3" json:"instance_id,omitempty"` // 场上实例ID（同一配置可能出现多个）
+	Hp            int32                  `protobuf:"varint,3,opt,name=hp,proto3" json:"hp,omitempty"`
+	PosX          float32                `protobuf:"fixed32,4,opt,name=pos_x,json=posX,proto3" json:"pos_x,omitempty"` // 路径上的连续坐标
+	PosY          float32                `protobuf:"fixed32,5,opt,name=pos_y,json=posY,proto3" json:"pos_y,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *EnemyState) Reset() {
+	*x = EnemyState{}
+	mi := &file_base_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *EnemyState) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*EnemyState) ProtoMessage() {}
+
+func (x *EnemyState) ProtoReflect() protoreflect.Message {
+	mi := &file_base_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use EnemyState.ProtoReflect.Descriptor instead.
+func (*EnemyState) Descriptor() ([]byte, []int) {
+	return file_base_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *EnemyState) GetEnemyId() uint32 {
+	if x != nil {
+		return x.EnemyId
+	}
+	return 0
+}
+
+func (x *EnemyState) GetInstanceId() uint64 {
+	if x != nil {
+		return x.InstanceId
+	}
+	return 0
+}
+
+func (x *EnemyState) GetHp() int32 {
+	if x != nil {
+		return x.Hp
+	}
+	return 0
+}
+
+func (x *EnemyState) GetPosX() float32 {
+	if x != nil {
+		return x.PosX
+	}
+	return 0
+}
+
+func (x *EnemyState) GetPosY() float32 {
+	if x != nil {
+		return x.PosY
+	}
+	return 0
+}
+
+// 2005 BattleSettlePush（服务端单向推送）
+// 战斗结束结算
+type BattleSettlePush struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	RoomId        uint32                 `protobuf:"varint,1,opt,name=room_id,json=roomId,proto3" json:"room_id,omitempty"`
+	Result        int32                  `protobuf:"varint,2,opt,name=result,proto3" json:"result,omitempty"` // 0胜利 1失败 2主动撤退
+	Score         int32                  `protobuf:"varint,3,opt,name=score,proto3" json:"score,omitempty"`
+	DurationSec   int32                  `protobuf:"varint,4,opt,name=duration_sec,json=durationSec,proto3" json:"duration_sec,omitempty"` // 战斗时长
+	Rewards       []string               `protobuf:"bytes,5,rep,name=rewards,proto3" json:"rewards,omitempty"`                             // 奖励描述，如 "exp:100"、"gold:500"
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *BattleSettlePush) Reset() {
+	*x = BattleSettlePush{}
+	mi := &file_base_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *BattleSettlePush) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BattleSettlePush) ProtoMessage() {}
+
+func (x *BattleSettlePush) ProtoReflect() protoreflect.Message {
+	mi := &file_base_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BattleSettlePush.ProtoReflect.Descriptor instead.
+func (*BattleSettlePush) Descriptor() ([]byte, []int) {
+	return file_base_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *BattleSettlePush) GetRoomId() uint32 {
+	if x != nil {
+		return x.RoomId
+	}
+	return 0
+}
+
+func (x *BattleSettlePush) GetResult() int32 {
+	if x != nil {
+		return x.Result
+	}
+	return 0
+}
+
+func (x *BattleSettlePush) GetScore() int32 {
+	if x != nil {
+		return x.Score
+	}
+	return 0
+}
+
+func (x *BattleSettlePush) GetDurationSec() int32 {
+	if x != nil {
+		return x.DurationSec
+	}
+	return 0
+}
+
+func (x *BattleSettlePush) GetRewards() []string {
+	if x != nil {
+		return x.Rewards
+	}
+	return nil
+}
+
+var File_base_proto protoreflect.FileDescriptor
+
+const file_base_proto_rawDesc = "" +
 	"\n" +
-	"\x0eapi/base.proto\x12\x03api\"'\n" +
+	"\n" +
+	"base.proto\x12\x03api\"'\n" +
 	"\aPingReq\x12\x1c\n" +
 	"\ttimestamp\x18\x01 \x01(\x03R\ttimestamp\"(\n" +
 	"\bPingResp\x12\x1c\n" +
@@ -368,57 +953,116 @@ const file_api_base_proto_rawDesc = "" +
 	"\x03uid\x18\x03 \x01(\x03R\x03uid\x12\x14\n" +
 	"\x05token\x18\x04 \x01(\tR\x05token\x12\x1d\n" +
 	"\n" +
-	"session_id\x18\x05 \x01(\tR\tsessionIdB\bZ\x06./;apib\x06proto3"
+	"session_id\x18\x05 \x01(\tR\tsessionId\"B\n" +
+	"\fEnterRoomReq\x12\x17\n" +
+	"\aroom_id\x18\x01 \x01(\rR\x06roomId\x12\x19\n" +
+	"\blevel_id\x18\x02 \x01(\rR\alevelId\"b\n" +
+	"\rEnterRoomResp\x12\x12\n" +
+	"\x04code\x18\x01 \x01(\x05R\x04code\x12\x10\n" +
+	"\x03msg\x18\x02 \x01(\tR\x03msg\x12\x17\n" +
+	"\aroom_id\x18\x03 \x01(\rR\x06roomId\x12\x12\n" +
+	"\x04seed\x18\x04 \x01(\x04R\x04seed\"\x99\x01\n" +
+	"\x11DeployOperatorReq\x12\x17\n" +
+	"\aroom_id\x18\x01 \x01(\rR\x06roomId\x12\x1f\n" +
+	"\voperator_id\x18\x02 \x01(\rR\n" +
+	"operatorId\x12\x15\n" +
+	"\x06grid_x\x18\x03 \x01(\rR\x05gridX\x12\x15\n" +
+	"\x06grid_y\x18\x04 \x01(\rR\x05gridY\x12\x1c\n" +
+	"\tdirection\x18\x05 \x01(\x05R\tdirection\"\x82\x01\n" +
+	"\x12DeployOperatorResp\x12\x12\n" +
+	"\x04code\x18\x01 \x01(\x05R\x04code\x12\x10\n" +
+	"\x03msg\x18\x02 \x01(\tR\x03msg\x12\x1f\n" +
+	"\voperator_id\x18\x03 \x01(\rR\n" +
+	"operatorId\x12%\n" +
+	"\x0eremaining_cost\x18\x04 \x01(\x05R\rremainingCost\"\xca\x01\n" +
+	"\x0fBattleStatePush\x12\x17\n" +
+	"\aroom_id\x18\x01 \x01(\rR\x06roomId\x12\x14\n" +
+	"\x05frame\x18\x02 \x01(\rR\x05frame\x12\x12\n" +
+	"\x04cost\x18\x03 \x01(\x05R\x04cost\x12\x17\n" +
+	"\abase_hp\x18\x04 \x01(\x05R\x06baseHp\x120\n" +
+	"\toperators\x18\x05 \x03(\v2\x12.api.OperatorStateR\toperators\x12)\n" +
+	"\aenemies\x18\x06 \x03(\v2\x0f.api.EnemyStateR\aenemies\"\x8c\x01\n" +
+	"\rOperatorState\x12\x1f\n" +
+	"\voperator_id\x18\x01 \x01(\rR\n" +
+	"operatorId\x12\x15\n" +
+	"\x06grid_x\x18\x02 \x01(\rR\x05gridX\x12\x15\n" +
+	"\x06grid_y\x18\x03 \x01(\rR\x05gridY\x12\x0e\n" +
+	"\x02hp\x18\x04 \x01(\x05R\x02hp\x12\x1c\n" +
+	"\tdirection\x18\x05 \x01(\x05R\tdirection\"\x82\x01\n" +
+	"\n" +
+	"EnemyState\x12\x19\n" +
+	"\benemy_id\x18\x01 \x01(\rR\aenemyId\x12\x1f\n" +
+	"\vinstance_id\x18\x02 \x01(\x04R\n" +
+	"instanceId\x12\x0e\n" +
+	"\x02hp\x18\x03 \x01(\x05R\x02hp\x12\x13\n" +
+	"\x05pos_x\x18\x04 \x01(\x02R\x04posX\x12\x13\n" +
+	"\x05pos_y\x18\x05 \x01(\x02R\x04posY\"\x96\x01\n" +
+	"\x10BattleSettlePush\x12\x17\n" +
+	"\aroom_id\x18\x01 \x01(\rR\x06roomId\x12\x16\n" +
+	"\x06result\x18\x02 \x01(\x05R\x06result\x12\x14\n" +
+	"\x05score\x18\x03 \x01(\x05R\x05score\x12!\n" +
+	"\fduration_sec\x18\x04 \x01(\x05R\vdurationSec\x12\x18\n" +
+	"\arewards\x18\x05 \x03(\tR\arewardsB\bZ\x06./;apib\x06proto3"
 
 var (
-	file_api_base_proto_rawDescOnce sync.Once
-	file_api_base_proto_rawDescData []byte
+	file_base_proto_rawDescOnce sync.Once
+	file_base_proto_rawDescData []byte
 )
 
-func file_api_base_proto_rawDescGZIP() []byte {
-	file_api_base_proto_rawDescOnce.Do(func() {
-		file_api_base_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_api_base_proto_rawDesc), len(file_api_base_proto_rawDesc)))
+func file_base_proto_rawDescGZIP() []byte {
+	file_base_proto_rawDescOnce.Do(func() {
+		file_base_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_base_proto_rawDesc), len(file_base_proto_rawDesc)))
 	})
-	return file_api_base_proto_rawDescData
+	return file_base_proto_rawDescData
 }
 
-var file_api_base_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
-var file_api_base_proto_goTypes = []any{
-	(*PingReq)(nil),      // 0: api.PingReq
-	(*PingResp)(nil),     // 1: api.PingResp
-	(*RegisterReq)(nil),  // 2: api.RegisterReq
-	(*RegisterResp)(nil), // 3: api.RegisterResp
-	(*LoginReq)(nil),     // 4: api.LoginReq
-	(*LoginResp)(nil),    // 5: api.LoginResp
+var file_base_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
+var file_base_proto_goTypes = []any{
+	(*PingReq)(nil),            // 0: api.PingReq
+	(*PingResp)(nil),           // 1: api.PingResp
+	(*RegisterReq)(nil),        // 2: api.RegisterReq
+	(*RegisterResp)(nil),       // 3: api.RegisterResp
+	(*LoginReq)(nil),           // 4: api.LoginReq
+	(*LoginResp)(nil),          // 5: api.LoginResp
+	(*EnterRoomReq)(nil),       // 6: api.EnterRoomReq
+	(*EnterRoomResp)(nil),      // 7: api.EnterRoomResp
+	(*DeployOperatorReq)(nil),  // 8: api.DeployOperatorReq
+	(*DeployOperatorResp)(nil), // 9: api.DeployOperatorResp
+	(*BattleStatePush)(nil),    // 10: api.BattleStatePush
+	(*OperatorState)(nil),      // 11: api.OperatorState
+	(*EnemyState)(nil),         // 12: api.EnemyState
+	(*BattleSettlePush)(nil),   // 13: api.BattleSettlePush
 }
-var file_api_base_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+var file_base_proto_depIdxs = []int32{
+	11, // 0: api.BattleStatePush.operators:type_name -> api.OperatorState
+	12, // 1: api.BattleStatePush.enemies:type_name -> api.EnemyState
+	2,  // [2:2] is the sub-list for method output_type
+	2,  // [2:2] is the sub-list for method input_type
+	2,  // [2:2] is the sub-list for extension type_name
+	2,  // [2:2] is the sub-list for extension extendee
+	0,  // [0:2] is the sub-list for field type_name
 }
 
-func init() { file_api_base_proto_init() }
-func file_api_base_proto_init() {
-	if File_api_base_proto != nil {
+func init() { file_base_proto_init() }
+func file_base_proto_init() {
+	if File_base_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_base_proto_rawDesc), len(file_api_base_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_base_proto_rawDesc), len(file_base_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   6,
+			NumMessages:   14,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_api_base_proto_goTypes,
-		DependencyIndexes: file_api_base_proto_depIdxs,
-		MessageInfos:      file_api_base_proto_msgTypes,
+		GoTypes:           file_base_proto_goTypes,
+		DependencyIndexes: file_base_proto_depIdxs,
+		MessageInfos:      file_base_proto_msgTypes,
 	}.Build()
-	File_api_base_proto = out.File
-	file_api_base_proto_goTypes = nil
-	file_api_base_proto_depIdxs = nil
+	File_base_proto = out.File
+	file_base_proto_goTypes = nil
+	file_base_proto_depIdxs = nil
 }

@@ -171,7 +171,7 @@ func handleRegister(payload []byte) *api.RegisterResp {
 
 func main() {
 	var err error
-	db, err = datasave.InitDB("root:root123@tcp(127.0.0.1:3306)/abyssal_city?parseTime=true")
+	db, err = datasave.InitDB("root:fox114514@tcp(127.0.0.1:3306)/abyssal_city?parseTime=true")
 	if err != nil {
 		logger.Fatal("数据库连接失败：", err)
 	}

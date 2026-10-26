@@ -2,7 +2,7 @@
 # 用法：docker compose up -d（启动）/ docker compose down（停止）
 services:
   mysql:
-    image: mysql:8.0
+    image: docker.m.daocloud.io/library/mysql:8.0
     container_name: abyssal-mysql
     environment:
       MYSQL_ROOT_PASSWORD: root123     # 本地开发用，生产改密钥管理
@@ -17,7 +17,7 @@ services:
     restart: unless-stopped
 
   redis:
-    image: redis:7
+    image: docker.m.daocloud.io/library/redis:7
     container_name: abyssal-redis
     ports:
       - "6379:6379"
