@@ -199,7 +199,7 @@ type client struct {
 	buf  *bytes.Buffer
 }
 
-// 发送消息给断口
+// 发送消息给端口
 func (c *client) send(msgID uint16, msg proto.Message) error {
 	body, err := proto.Marshal(msg)
 	if err != nil {
