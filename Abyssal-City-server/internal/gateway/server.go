@@ -35,8 +35,8 @@ var (
 
 // Run 连接后端服务并启动网关 TCP 监听
 func Run() {
-	loginBackend.start()
-	battleBackend.start()
+	loginBackend.start()  //后端回包处理
+	battleBackend.start() //后端回包处理
 
 	listener, err := net.Listen("tcp", ":8888")
 	if err != nil {
@@ -48,7 +48,7 @@ func Run() {
 		if err != nil {
 			continue
 		}
-		go handleConn(conn)
+		go handleConn(conn) //客户端发送请求处理
 	}
 }
 
